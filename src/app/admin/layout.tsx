@@ -1,7 +1,8 @@
 'use client';
 // Layout components
+
 import { usePathname } from 'next/navigation';
-import { useContext, useState } from 'react';
+import  { useContext, useState,useEffect } from 'react';
 import routes from 'routes';
 import {
   getActiveNavbar,
@@ -15,6 +16,24 @@ import Sidebar from 'components/sidebar';
 import Footer from 'components/footer/Footer';
 
 export default function Admin({ children }: { children: React.ReactNode }) {
+  const [userDetails, setUserDetails] = useState({
+      userId: '',
+      username: '',
+    });
+  
+    useEffect(() => {
+      // Retrieve user details from localStorage
+      const userId = localStorage.getItem('userId');
+      const username = localStorage.getItem('username');
+      
+      if (userId && username) {
+        setUserDetails({ userId, username });
+      } else {
+        // Redirect back to login page if no user details are found
+        window.location.replace('/auth/sign-in');
+      }
+    }, []);
+
   // states and functions
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
@@ -35,6 +54,7 @@ export default function Admin({ children }: { children: React.ReactNode }) {
               onOpenSidenav={() => setOpen(!open)}
               brandText={getActiveRoute(routes, pathname)}
               secondary={getActiveNavbar(routes, pathname)}
+              userDetails={userDetails}
             />
             <div className="mx-auto min-h-screen p-2 !pt-[10px] md:p-2">
               {children}

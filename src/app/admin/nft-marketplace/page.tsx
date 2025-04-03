@@ -1,4 +1,5 @@
 'use client';
+import React, { useEffect, useState } from 'react';
 import Banner from 'components/admin/nft-marketplace/Banner';
 import NFt11 from '/public/img/nfts/csd.webp';
 import NFt12 from '/public/img/nfts/gad.webp';
@@ -13,7 +14,9 @@ import HistoryItem from 'components/admin/nft-marketplace/HistoryItem';
 import TopCreatorTable from 'components/admin/nft-marketplace/TableTopCreators';
 import NftCard from 'components/card/NftCard';
 
+
 const Marketplace = () => {
+  
   return (
     <div className="mt-3 grid h-full grid-cols-1 gap-5 xl:grid-cols-1 2xl:grid-cols-1">
       <div className="col-span-1 h-fit w-full xl:col-span-1 2xl:col-span-2">

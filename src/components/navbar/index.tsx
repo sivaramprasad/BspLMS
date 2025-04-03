@@ -8,20 +8,29 @@ import { FiSearch } from 'react-icons/fi';
 import { RiMoonFill, RiSunFill } from 'react-icons/ri';
 // import { RiMoonFill, RiSunFill } from 'react-icons/ri';
 // import Configurator from './Configurator';
+
 import {
   IoMdNotificationsOutline,
   IoMdInformationCircleOutline,
 } from 'react-icons/io';
 import avatar from '/public/img/avatars/avatar4.png';
 import Image from 'next/image';
+interface UserDetails {
+  userId: string;
+  username: string;
+}
 
-const Navbar = (props: {
+interface NavbarProps {
   onOpenSidenav: () => void;
   brandText: string;
   secondary?: boolean | string;
+  userDetails: UserDetails;  // Make sure this prop is passed correctly
   [x: string]: any;
-}) => {
-  const { onOpenSidenav, brandText, mini, hovered } = props;
+}
+
+const Navbar: React.FC<NavbarProps> = ({ onOpenSidenav, brandText, userDetails }) => {
+  const { username } = userDetails || {}; // Default to empty object if undefined
+
   const [darkmode, setDarkmode] = React.useState(
     document.body.classList.contains('dark'),
   );
@@ -77,7 +86,7 @@ const Navbar = (props: {
             <div className="ml-4 mt-3">
               <div className="flex items-center gap-2">
                 <p className="text-sm font-bold text-navy-700 dark:text-white">
-                  👋 Hey, Manasa
+                  👋 Hey,{userDetails.username}
                 </p>{' '}
               </div>
             </div>
