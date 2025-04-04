@@ -86,7 +86,7 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenSidenav, brandText, userDetails }
             <div className="ml-4 mt-3">
               <div className="flex items-center gap-2">
                 <p className="text-sm font-bold text-navy-700 dark:text-white">
-                  👋 Hey,{userDetails.username}
+                  👋 Hey {userDetails.username}
                 </p>{' '}
               </div>
             </div>
@@ -101,7 +101,11 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenSidenav, brandText, userDetails }
               </a> */}
               
               <a
-                href=" "
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault(); // Prevent the default link behavior
+                  window.location.replace('/auth/sign-in');
+                }}
                 className="mt-3 text-sm font-medium text-red-500 hover:text-red-500"
               >
                 Log Out

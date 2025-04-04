@@ -9,7 +9,7 @@ import Checkbox from 'components/checkbox';
 const SignInDefault = () => {
   
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+ 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   
@@ -18,50 +18,47 @@ const SignInDefault = () => {
   const handleSignIn = async (e) => {
     e.preventDefault();
     setError(""); // Reset previous errors
-   
-    if (!email || !password) {
-      setError("Email and password are required!");
+  
+    if (!email) {
+      setError("Email is required!");
       return;
     }
-
+  
     setLoading(true);
-
+  
     try {
-      const response = await fetch("https://www.backstagepass.co.in/reactapi/student_login.php", {
+      const response = await fetch("https://www.backstagepass.co.in/reactapi/forgotpassword_mail.php", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email }),
       });
-
-      if (!response.ok) {
-        throw new Error("Failed to log in. Please try again.");
-      }
-
-      const data = await response.json();
-      console.log('Response Data:', data);
-
-      if (data.status === 200) {
-        console.log("Logged in successfully", data);
-       
-        // Client-side redirection using router.push() after successful login
-        //router.push('/admin/nft-marketplace');  // Redirect to the NFT Marketplace page
-        //window.location.replace('/admin/nft-marketplace');
-        //useEffect(() => {
-          // Redirect without leaving a history entry
-          //window.location.replace('/admin/nft-marketplace');
-          localStorage.setItem('userId', data.userid);  // Store userId
-          localStorage.setItem('username', data.username);  // Store username
-          localStorage.setItem('enrolledcourses', data.enrolled);  // Store username
-          window.location.replace('/admin/nft-marketplace'); 
-        //}, []);
+  
+      // Check the raw response
+      const responseText = await response.text();
+      console.log("Response Text:", responseText);
+  
+      // Try to parse it as JSON
+      const data = JSON.parse(responseText); // manually parse the response text
+  
+      if (response.ok) {
+        if (data.status === 200) {
+          console.log("Password reset link sent successfully", data);
+          setError("Login Details sent to your mail id.");
+          // Redirect to sign-in page after 2 seconds
+        setTimeout(() => {
+            window.location.href = "/auth/sign-in"; // Redirect to the sign-in page
+          }, 2000); // 2000 milliseconds = 2 seconds
+        } else {
+          setError(data.message || "Failed to send reset link.");
+        }
       } else {
-        setError(data.message || "Invalid credentials");
+        throw new Error("Failed to request password reset. Please try again.");
       }
     } catch (err) {
       console.error('Error:', err);
-      setError("An error occurred while trying to sign in. Please try again.");
+      setError("An error occurred while trying to reset your password. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -75,10 +72,10 @@ const SignInDefault = () => {
             {/* Sign in section */}
             <div className="mt-[10vh] w-full max-w-full flex-col items-center md:pl-4 lg:pl-0 xl:max-w-[420px]">
               <h3 className="mb-2.5 text-4xl font-bold text-navy-700 dark:text-white">
-                Sign In
+                Forgot Password
               </h3>
               <p className="mb-9 ml-1 text-base text-gray-600">
-                Enter your email and password to sign in!
+                Enter your email !
               </p>
 
               {/* Email */}
@@ -93,17 +90,7 @@ const SignInDefault = () => {
                 onChange={(e) => setEmail(e.target.value)}
               />
 
-              {/* Password */}
-              <InputField
-                variant="auth"
-                extra="mb-3"
-                label="Password*"
-                placeholder="Min. 8 characters"
-                id="password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
+             
 
               {/* Error Display */}
               {error && (
@@ -114,20 +101,15 @@ const SignInDefault = () => {
 
               {/* Checkbox */}
               <div className="mb-4 flex items-center justify-between px-2">
-                <div className="mt-2 flex items-center">
-                  <Checkbox />
-                  <p className="ml-2 text-sm font-medium text-navy-700 dark:text-white">
-                    Keep me logged In
-                  </p>
-                </div>
+               
                 <a
                   className="text-sm font-medium text-brand-500 hover:text-brand-600 dark:text-white"
                   href="#" onClick={(e) => {
                     e.preventDefault(); // Prevent the default link behavior
-                    window.location.replace('/auth/forgot-pwd');
+                    window.location.replace('/auth/sign-in');
                   }}
                 >
-                  Forgot Password?
+                  Login?
                 </a>
               </div>
 
@@ -138,7 +120,7 @@ const SignInDefault = () => {
                 type="submit"
                 disabled={loading} // Disable button when loading
               >
-                {loading ? "Signing In..." : "Sign In"}
+                {loading ? "Sending..." : "Submit"}
               </button>
             </div>
           </div>

@@ -2,21 +2,42 @@ import { IoHeart, IoHeartOutline } from 'react-icons/io5';
 import { useState } from 'react';
 import Card from 'components/card';
 import Image from 'next/image';
+ 
 
 const NftCard = (props: {
   image: string;
   title: string;
   extra?: string;
+  courseId: string; 
+  path: string;
+  shortname:string;
 }) => {
-  const { title, image, extra } = props;
+  const { title, image, extra,courseId,path,shortname  } = props;
   const [heart, setHeart] = useState(true);
+  const enrolled = localStorage.getItem('enrolledcourses');
+  const enrolledCourses = enrolled.split(",").map(course => course.trim());
+ 
+  const handleViewMore = () => {
+   
+   // window.location.replace(path);
+    const urlpath = path; // The URL you want to open
+    window.open(urlpath, '_blank'); // Opens in a new tab or window
+    
+  };
   return (
     <Card
       extra={`flex flex-col w-full h-full !p-4 3xl:p-![18px] bg-white ${extra}`}
     >
-     {title === "Bachelor's in Computer Science & Game Development" || title === "Bachelor's in Game Art & Design" ? <div className="cover-ribbon">
-     <div className="cover-ribbon-inside">Enrolled</div>
-  </div> : null} 
+     {/* {title === "Bachelor's in Computer Science & Game Development" || title === "Bachelor's in Game Art & Design" ? <div className="cover-ribbon">
+     <div className="cover-ribbon-inside">Enrolled</div> */}
+{/* Conditionally render the "Enrolled" ribbon */}
+{enrolledCourses.includes(shortname) && (
+              <div className="cover-ribbon">
+                <div className="cover-ribbon-inside">Enrolled</div>
+              </div>
+            )}
+
+  {/* </div> : null}  */}
       <div className="h-full w-full">
         <div className="relative w-full">
         
@@ -44,13 +65,18 @@ const NftCard = (props: {
             </p>
             
           </div>
+           
 
          
         </div>
 
         <div className="flex items-center justify-between md:flex-col md:items-start lg:flex-row lg:justify-between xl:flex-col 2xl:items-start 3xl:flex-row 3xl:items-center 3xl:justify-between">
           
-          <button style={{color: "#fff"}} className="linear rounded-[20px] bg-brand-900 px-4 py-2 text-base font-medium text-white transition duration-200">
+        <button
+            onClick={handleViewMore} // Redirect to course detail page
+            style={{ color: "#fff" }}
+            className="linear rounded-[20px] bg-brand-900 px-4 py-2 text-base font-medium text-white transition duration-200"
+          >
             View More
           </button>
         </div>
