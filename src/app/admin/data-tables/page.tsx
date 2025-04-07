@@ -1,4 +1,5 @@
 'use client';
+import React, { useEffect, useState } from 'react';
 import BannerC from 'components/admin/nft-marketplace/BannerC';
 import NFt11 from '/public/img/nfts/csd.webp';
 import NFt12 from '/public/img/nfts/gad.webp';
@@ -21,60 +22,86 @@ import TopCreatorTable from 'components/admin/nft-marketplace/TableTopCreators';
 import NftCard from 'components/card/NftCard';
 
 const Marketplace = () => {
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    // Fetch the data from the unified API
+    fetch('https://www.backstagepass.co.in/reactapi/class_schedule.php')
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data); // Log the response to debug
+        setData(data);  // The data now contains both schedule and history data
+      })
+      .catch((error) => {
+        console.error("Error fetching schedule and history data: ", error);
+      });
+  }, []);
+
+  if (!data) {
+    return <div>Loading...</div>;
+  }
+console.log(data);
+  // Destructure the data safely, with fallback values if the data is missing
+  const { next_lesson = {}, banner = {}, history = [] } = data;
+  const { time = "00:00:00", instructor = "Unknown", zoom = "#" } = next_lesson;
+  const { title = "Default Title", subtitle = "Default Subtitle" } = banner;
+
+  // Ensure time is a string and has the correct format before trying to split it
+  const timeArray = time ? time.split(':') : ["00", "00", "00"];
+
   return (
     <div className="mt-3 grid h-full grid-cols-1 gap-5 xl:grid-cols-1 2xl:grid-cols-1">
       <div className="col-span-1 h-fit w-full xl:col-span-1 2xl:col-span-2">
-        {/* NFt Banner */}
-        <BannerC />
+        {/* NFT Banner */}
+        <BannerC title={title} subtitle={subtitle} />
 
-        {/* NFt Header */}
+        {/* NFT Header */}
         <div className="mb-4 mt-5 flex flex-col justify-between px-4 md:flex-row md:items-center">
           <h4 className="ml-1 text-2xl font-bold text-navy-700 dark:text-white">
-           My Schedule
+            My Schedule
           </h4>
-        
         </div>
 
-        {/* NFTs trending card */}
-      
-
-        {/* Recenlty Added setion */}
-       
-        {/* Recently Add NFTs */}
-      
+        {/* Recently Added section */}
+        {/* You can add other sections here */}
       </div>
 
-      {/* right side section */}
-
+      {/* Right side section */}
       <div className="grid h-full grid-cols-1 gap-5 md:grid-cols-2">
-      {/* <ComplexTable tableData={tableDataComplex} /> */}
-     
-        <HistoryItem />
+        {/* Pass the history data to HistoryItem */}
+        <HistoryItem historyData={history} />
 
-        <div className='mainh'>
-          <div className='mainLL'>
-          <div className='mainhL'>
+        <div className="mainh">
+          <div className="mainLL">
+            <div className="mainhL">
               <IoMdTime />
-          </div>
-          <div className='mainhL'>
+            </div>
+            <div className="mainhL">
               <ul>
-                <li>02 <br/><span>Hour</span></li>
+                <li>{timeArray[0]} <br /><span>Hour</span></li>
                 <li>:</li>
-                <li>15 <br/><span>Minute</span></li>
+                <li>{timeArray[1]} <br /><span>Minute</span></li>
                 <li>:</li>
-                <li>10 <br/><span>Second</span></li>
-                </ul>
+                <li>{timeArray[2]} <br /><span>Second</span></li>
+              </ul>
+            </div>
           </div>
-          </div>
-          <div className='mainhR'>
-              <div className='mainhR-L'>
-                <p>Your Next lesso with</p>
-                <h4>Mr. Hamed</h4>
-                <p>Your Next lesso with</p>
-              </div>
-              <div className='mainhR-R'>
-                <div><TbBrandZoom /></div>
-              </div>
+          <div className="mainhR">
+            <div className="mainhR-L">
+              <p>Your Next lesson with</p>
+              <h4>{instructor}</h4>
+            </div>
+            <div className="mainhR-R">
+              <div>
+        {zoom ? (
+          <a href={zoom} target="_blank" rel="noopener noreferrer" className="zoom-link">
+            <TbBrandZoom size={30} />
+          </a>
+        ) : (
+          <p>No Zoom link available</p>
+        )}
+      </div>
+            </div>
           </div>
         </div>
       </div>
@@ -82,4 +109,4 @@ const Marketplace = () => {
   );
 };
 
-export default Marketplace;
+export default Marketplace; 
