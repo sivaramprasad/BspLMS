@@ -45,15 +45,13 @@ const SignInDefault = () => {
       if (data.status === 200) {
         console.log("Logged in successfully", data);
        
-        // Client-side redirection using router.push() after successful login
-        //router.push('/admin/nft-marketplace');  // Redirect to the NFT Marketplace page
-        //window.location.replace('/admin/nft-marketplace');
-        //useEffect(() => {
-          // Redirect without leaving a history entry
-          //window.location.replace('/admin/nft-marketplace');
+       
           localStorage.setItem('userId', data.userid);  // Store userId
           localStorage.setItem('username', data.username);  // Store username
           localStorage.setItem('enrolledcourses', data.enrolled);  // Store username
+          localStorage.setItem('password', password);
+          localStorage.setItem('email', email);
+            
           window.location.replace('/admin/nft-marketplace'); 
         //}, []);
       } else {
