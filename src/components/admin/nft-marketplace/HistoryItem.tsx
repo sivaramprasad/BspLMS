@@ -14,33 +14,41 @@ import { FaRegPauseCircle } from "react-icons/fa";
 
 import { FaEthereum } from 'react-icons/fa';
 import Card from 'components/card';
+interface HistoryData {
+  title: string;
+  time: string;
+  process: string;
+  image: string;
+}
 
-const HistoryCard = () => {
-  const [historyData, setHistoryData] = useState([]);
+interface HistoryItemProps {
+  historyData?: HistoryData[];  // Optional in case the prop is passed directly
+}
+
+const HistoryItem: React.FC<HistoryItemProps> = ({ historyData }) => {
+  const [datahistory, setData] = useState<HistoryData[]>([]);  // Local state for history data
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Fetch data from the PHP API
     fetch('https://www.backstagepass.co.in/reactapi/class_history.php')
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
+      .then((response) => {
+        return response.json();  // Ensure you get JSON response
       })
-      .then(data => {
-        setHistoryData(data);
+      .then((data) => {
+        console.log('Fetched Data:', data);  // Log the data to see what is returned
+        setData(data);
         setLoading(false);
       })
-      .catch(error => {
-        setError(error);
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+        setError('Error fetching data');
         setLoading(false);
       });
-  }, []); // Empty dependency array ensures this runs only once when the component mounts
+  }, []);
 
   // Function to get the status icon based on process
-  const getStatusIcon = (process) => {
+  const getStatusIcon = (process: string) => {
     switch (process) {
       case 'Completed':
         return <MdCheckCircle className="text-green-500" />;
@@ -53,47 +61,52 @@ const HistoryCard = () => {
     }
   };
 
+  // Return loading or error states
   if (loading) {
     return <div>Loading...</div>;
   }
 
   if (error) {
-    return <div>Error: {error.message}</div>;
+    return <div>Error: {error}</div>;
   }
 
   return (
     <Card extra="mt-3 !z-5 overflow-hidden">
-      {historyData.map((data, index) => (
-        <div
-          key={index}
-          className="flex h-full w-full items-center justify-between bg-white px-3 py-5 hover:shadow-2xl dark:bg-navy-800 dark:hover:bg-navy-700"
-        >
-          {/* Left Section: Image and Title */}
-          <div className="flex items-center gap-3">
-            <div className="h-16 w-16 rounded-xl overflow-hidden">
-              <Image
-                width={64}
-                height={64}
-                className="h-full w-full object-cover"
-                src={data.image}
-                alt={data.title}
-              />
+      {datahistory.length === 0 ? (
+        <div>No classes available</div>
+      ) : (
+        datahistory.map((data, index) => (
+          <div
+            key={index}
+            className="flex h-full w-full items-center justify-between bg-white px-3 py-5 hover:shadow-2xl dark:bg-navy-800 dark:hover:bg-navy-700"
+          >
+            {/* Left Section: Image and Title */}
+            <div className="flex items-center gap-3">
+              <div className="h-16 w-16 rounded-xl overflow-hidden">
+                <Image
+                  width={64}
+                  height={64}
+                  className="h-full w-full object-cover"
+                  src={data.image}  // Make sure the image path is valid
+                  alt={data.title}
+                />
+              </div>
+              <div className="flex flex-col">
+                <h5 className="text-base font-bold text-navy-700 dark:text-white">{data.title}</h5>
+                <p className="mt-1 text-sm font-normal text-gray-600">{data.time}</p>
+              </div>
             </div>
-            <div className="flex flex-col">
-              <h5 className="text-base font-bold text-navy-700 dark:text-white">{data.title}</h5>
-              <p className="mt-1 text-sm font-normal text-gray-600">{data.time}</p>
-            </div>
-          </div>
 
-          {/* Right Section: Status Icon and Process Text */}
-          <div className="flex items-center">
-            <div className="mr-2 text-xl">{getStatusIcon(data.process)}</div>
-            <div className="ml-1 text-sm font-bold text-navy-700 dark:text-white">{data.process}</div>
+            {/* Right Section: Status Icon and Process Text */}
+            <div className="flex items-center">
+              <div className="mr-2 text-xl">{getStatusIcon(data.process)}</div>
+              <div className="ml-1 text-sm font-bold text-navy-700 dark:text-white">{data.process}</div>
+            </div>
           </div>
-        </div>
-      ))}
+        ))
+      )}
     </Card>
   );
 };
 
-export default HistoryCard;
+export default HistoryItem;
