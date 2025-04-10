@@ -8,7 +8,9 @@ function InputField(props: {
   state?: string;
   disabled?: boolean;
   type?: string;
+  value?: string;
   onChange?: any;
+  required?: any;
 }) {
   const {
     label,
@@ -19,7 +21,9 @@ function InputField(props: {
     variant,
     state,
     disabled,
+    value,
     onChange,
+    required,
   } = props;
 
   return (
