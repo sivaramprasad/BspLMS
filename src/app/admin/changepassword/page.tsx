@@ -1,14 +1,20 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect,useState } from 'react';
 import InputField from 'components/fields/InputField';
 import Default from 'components/auth/variants/DefaultAuthLayout';
 import { FcGoogle } from 'react-icons/fc';
 import Checkbox from 'components/checkbox';
-const oldpassword = localStorage.getItem('password');
-const userid = localStorage.getItem('userId');
-const email = localStorage.getItem('email');
+// const oldpassword = localStorage.getItem('password');
+// const userid = localStorage.getItem('userId');
+// const email = localStorage.getItem('email');
+
+  
 
 function SignInDefault() {
+  const [oldpassword, setPassword] = useState<string | null>(null);
+  const [userid, setUserId] = useState<string | null>(null);
+  const [email, setEmail] = useState<string | null>(null);
+
   const [inputOldPassword, setInputOldPassword] = useState('');
   const [inputNewPassword, setInputNewPassword] = useState('');
   const [inputConfirmPassword, setInputConfirmPassword] = useState('');
@@ -17,6 +23,17 @@ function SignInDefault() {
   const [confirmPasswordError, setConfirmPasswordError] = useState('');
   const [formError, setFormError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+
+  useEffect(() => {
+    // Only runs on the client-side
+    const storedPassword = localStorage.getItem('password');
+    const storedUserId = localStorage.getItem('userId');
+    const storedEmail = localStorage.getItem('email');
+
+    setPassword(storedPassword);
+    setUserId(storedUserId);
+    setEmail(storedEmail);
+  }, []);  // The empty array ensures this runs only once after component mounts
 
   // Handler for "Old Password" input field change
   const handleOldPasswordChange = (e) => {
