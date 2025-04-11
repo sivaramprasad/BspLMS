@@ -25,6 +25,7 @@ export default function Admin({ children }: { children: React.ReactNode }) {
       // Retrieve user details from localStorage
       const userId = localStorage.getItem('userId');
       const username = localStorage.getItem('username');
+      console.log('userId:', userId, 'username:', username); // Add this
       
       if (userId && username) {
         setUserDetails({ userId, username });

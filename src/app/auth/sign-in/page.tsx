@@ -16,54 +16,65 @@ const SignInDefault = () => {
  
 
   const handleSignIn = async (e) => {
-    e.preventDefault();
-    setError(""); // Reset previous errors
-   
-    if (!email || !password) {
-      setError("Email and password are required!");
-      return;
+  e.preventDefault();
+  setError(""); // Reset previous errors
+
+  if (!email || !password) {
+    setError("Email and password are required!");
+    return;
+  }
+
+  setLoading(true);
+
+  try {
+    const response = await fetch("https://www.backstagepass.co.in/reactapi/student_login.php", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to log in. Please try again.");
     }
 
-    setLoading(true);
+    const data = await response.json();
+    console.log('Response Data:', data);
 
-    try {
-      const response = await fetch("https://www.backstagepass.co.in/reactapi/student_login.php", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
+    if (data.status === 200) {
+      console.log("Logged in successfully", data);
 
-      if (!response.ok) {
-        throw new Error("Failed to log in. Please try again.");
-      }
+      // ✅ Save data to localStorage
+      localStorage.setItem('userId', data.userid);
+      localStorage.setItem('username', data.username);
+      localStorage.setItem('enrolledcourses', data.enrolled);
+      localStorage.setItem('password', password);
+      localStorage.setItem('email', email);
 
-      const data = await response.json();
-      console.log('Response Data:', data);
+      // ✅ Delay the redirect slightly to ensure localStorage is fully written
+      setTimeout(() => {
+        const userId = localStorage.getItem('userId');
+  const username = localStorage.getItem('username');
 
-      if (data.status === 200) {
-        console.log("Logged in successfully", data);
-       
-       
-          localStorage.setItem('userId', data.userid);  // Store userId
-          localStorage.setItem('username', data.username);  // Store username
-          localStorage.setItem('enrolledcourses', data.enrolled);  // Store username
-          localStorage.setItem('password', password);
-          localStorage.setItem('email', email);
-            
-          window.location.replace('/admin/nft-marketplace'); 
-        //}, []);
-      } else {
-        setError(data.message || "Invalid credentials");
-      }
-    } catch (err) {
-      console.error('Error:', err);
-      setError("An error occurred while trying to sign in. Please try again.");
-    } finally {
-      setLoading(false);
+  if (userId && username) {
+        window.location.replace('/admin/nft-marketplace');
+    }else{
+      setError("Something went wrong. Please try again.");
     }
-  };
+  
+  }, 100); // 100ms delay
+
+    } else {
+      setError(data.message || "Invalid credentials");
+    }
+  } catch (err) {
+    console.error('Error:', err);
+    setError("An error occurred while trying to sign in. Please try again.");
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <form onSubmit={handleSignIn}>
