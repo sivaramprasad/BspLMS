@@ -21,9 +21,9 @@ function SidebarHorizon(props: { routes: IRoute[]; [x: string]: any }) {
         <HiX />
       </span>
 
-      <div className={`mx-[56px] mt-[50px] flex items-center`}>
+      <div className={`mx-[15px] mt-[20px] flex items-center`}>
         <div className="ml-1 mt-1 h-2.5 font-poppins text-[26px] font-bold uppercase text-navy-700 dark:text-white">
-          <img src={"https://backstagepass.co.in/instituteofgaming.png"} style={{width: "200px"}} />
+          <img src={"https://backstagepass.co.in/instituteofgaming.png"} style={{width: "270px", objectFit: "scale-down", objectPosition: "center"}} />
         </div>
       </div>
       <div className="mb-7 mt-[58px] h-px bg-gray-300 dark:bg-white/30" />
