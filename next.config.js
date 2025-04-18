@@ -2,6 +2,7 @@ const nextConfig = {
   output: 'export',
   basePath: '',
   assetPrefix: '',
+  trailingSlash: true, // ✅ Important for GoDaddy static hosting
   images: {
     domains: [
       'images.unsplash.com',
