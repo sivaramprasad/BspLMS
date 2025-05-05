@@ -87,7 +87,7 @@ const HistoryItem: React.FC<HistoryItemProps> = ({ historyData }) => {
                   width={64}
                   height={64}
                   className="h-full w-full object-cover"
-                  src={data.image}  // Make sure the image path is valid
+                  src={"https://cdn3.iconfinder.com/data/icons/seo-and-marketing-3/64/SEO_Flat_games_development_joystick-512.png"}  // Make sure the image path is valid
                   alt={data.title}
                 />
               </div>

@@ -13,7 +13,48 @@ option {
     padding: 30px;
     border-radius: 12px;
     margin-top: 15px;
-    width: 420px;
+    width: 100%;
+}
+.logoBsp{
+  width: 270px;
+  object-fit: scale-down;
+  object-position: center center;
+}
+@media screen and (max-width: 600px) {
+  .mainh {
+    background: #222222;
+    height: 300px;
+    padding: 30px 20px !important;
+    border-radius: 12px;
+    margin-top: 15px;
+    width: 100% !important;
+}
+.logoBsp{
+  width: 220px !important;
+  object-fit: scale-down;
+  object-position: center center;
+}
+.opentheleftmenu{
+  z-index: 49;
+  position: fixed;
+  top: 2.6rem;
+  left: 1.6rem;
+}
+.width320{
+  width: 320px;
+}
+.opentheleftmenu svg{
+  font-size: 32px;
+  color: #fff;
+}
+.width65{
+  width: 65%;
+  margin-left: 15% !important;
+  
+}
+.fon24{
+  font-size: 24px !important;
+}
 }
 .mainLL{
   display: flex;
@@ -68,6 +109,7 @@ option {
   font-size: 32px;
   font-weight: bold;
   color: #ec1923;
+  text-transform: capitalize;
 }
 .mainhR-R div{
   width: 100px;

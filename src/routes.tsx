@@ -49,12 +49,12 @@ const routes = [
     path: 'recordings',
     icon: <BiVideoRecording className="h-6 w-6" />,
   },
-  {
-    name: 'Change Password',
-    layout: '/admin',
-    path: 'changepassword',
-    icon: <MdPerson className="h-6 w-6" />,
-  },
+  // {
+  //   name: 'Change Password',
+  //   layout: '/admin',
+  //   path: 'changepassword',
+  //   icon: <MdPerson className="h-6 w-6" />,
+  // },
   // {
   //   name: 'Sign In',
   //   layout: '/auth',

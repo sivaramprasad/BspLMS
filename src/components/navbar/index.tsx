@@ -36,7 +36,7 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenSidenav, brandText, userDetails }
   );
   return (
     <nav className="sticky top-4 z-40 flex flex-row flex-wrap items-center justify-between rounded-xl bg-white/10 p-2 backdrop-blur-xl dark:bg-[#0b14374d]">
-      <div className="ml-[6px]">
+      <div className="ml-[6px] width65">
         <div className="h-6 w-[224px] pt-1">
           <a
             className="text-sm font-normal text-navy-700 hover:underline dark:text-white dark:hover:text-white"
@@ -55,7 +55,7 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenSidenav, brandText, userDetails }
             {brandText}
           </NavLink>
         </div>
-        <p className="shrink text-[33px] capitalize text-navy-700 dark:text-white">
+        <p className="shrink text-[33px] fon24 capitalize text-navy-700 dark:text-white">
           <NavLink
             href="#"
             className="font-bold capitalize hover:text-navy-700 dark:hover:text-white"
@@ -93,12 +93,17 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenSidenav, brandText, userDetails }
             <div className="mt-3 h-px w-full bg-gray-200 dark:bg-white/20 " />
 
             <div className="ml-4 mt-3 flex flex-col">
-              {/* <a
-                href=" "
+              <a
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault(); // Prevent the default link behavior
+                  window.location.replace('/admin/changepassword/');
+                }}
+                
                 className="text-sm text-gray-800 dark:text-white hover:dark:text-white"
               >
-                Profile Settings
-              </a> */}
+                Change Password
+              </a>
               
               <a
                 href="#"
