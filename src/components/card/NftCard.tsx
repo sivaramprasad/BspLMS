@@ -20,6 +20,11 @@ const NftCard = ({ title, image, extra, courseId, path, shortname }: NftCardProp
   const handleViewMore = () => {
     window.open(path, '_blank'); // Open the URL in a new tab/window
   };
+  const handlePaynow = () => {
+   const pathpaynow='https://www.backstagepass.co.in/landingpage/short-course';
+    window.open(pathpaynow, '_blank'); // Open the URL in a new tab/window
+  };
+  
 
   const isEnrolled = enrolledCourses.includes(shortname);
 
@@ -61,14 +66,15 @@ const NftCard = ({ title, image, extra, courseId, path, shortname }: NftCardProp
           >
             View More
           </button>
-
+          {!isEnrolled && (
           <button
-            onClick={handleViewMore}
+            onClick={handlePaynow}
             style={{color: "#fff"}}
             className="linear rounded-[20px] bg-brand-900 px-4 py-2 text-base font-medium text-white transition duration-200"
           >
             Pay Now
           </button>
+          )}
         </div>
       </div>
     </Card>
