@@ -71,7 +71,7 @@ console.log(data);
         {/* Pass the history data to HistoryItem */}
         <HistoryItem historyData={history} />
 
-        <div className="mainh">
+        {/* <div className="mainh">
           <div className="mainLL">
             <div className="mainhL">
               <IoMdTime />
@@ -103,7 +103,7 @@ console.log(data);
       </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

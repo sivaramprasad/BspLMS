@@ -18,7 +18,8 @@ const EnrolledCard = (props: {
     const enrolledCourses = enrolled?.split(',').map(course => course.trim()) || [];
   
     const handleViewMore = () => {
-        window.open(urlpath, '_blank'); // Opens in a new tab or window
+        //window.open(urlpath, '_blank'); // Opens in a new tab or window
+          window.location.href = '/admin/data-tables/';
     };
   
     return (

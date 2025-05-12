@@ -69,12 +69,12 @@ const Marketplace = () => {
                 shortname={course.shortname}
               />
               <div className="mt-3 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-2 2xl:grid-cols-2 3xl:grid-cols-6">
-                <Widget icon={<MdOutlineDateRange className="h-7 w-7" />} title="Date" subtitle={course.date} />
-                <Widget icon={<MdOutlineAccessTime className="h-7 w-7" />} title="Time" subtitle={course.time} />
+                <Widget icon={<MdOutlineDateRange className="h-7 w-7" />} title="Start Date" subtitle={course.date} />
+                <Widget icon={<MdOutlineDateRange className="h-7 w-7" />} title="End Date" subtitle={course.date} />
               </div>
-              <div className="mt-3 grid grid-cols-1 gap-5 md:grid-cols-1 lg:grid-cols-1 2xl:grid-cols-1 3xl:grid-cols-6">
+              {/* <div className="mt-3 grid grid-cols-1 gap-5 md:grid-cols-1 lg:grid-cols-1 2xl:grid-cols-1 3xl:grid-cols-6">
                 <Widget icon={<TbBrandZoom className="h-7 w-7" />} title="Link" subtitle={course.zoomLink} />
-              </div>
+              </div> */}
             </div>
           ))}
         </div>
